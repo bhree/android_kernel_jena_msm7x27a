@@ -61,13 +61,13 @@ esac
 case "$target" in
     "GT-S6202" | "msm7627_ffa" | "msm7627_surf" | "GT-S7500" | "GT-S6500" | "GT-S6500D" | "GT-S6500T" | "GT-S7509" | "SGH-I827" | "msm7627a")
 #        echo 25000 > /sys/devices/system/cpu/cpu0/cpufreq/ondemand/sampling_rate
-	echo 75 > /sys/devices/system/cpu/cpufreq/smartass/max_cpu_load
-	echo 40 > /sys/devices/system/cpu/cpufreq/smartass/min_cpu_load
+#	echo 75 > /sys/devices/system/cpu/cpufreq/smartass/max_cpu_load
+#	echo 40 > /sys/devices/system/cpu/cpufreq/smartass/min_cpu_load
 #	echo 480000 > /sys/devices/system/cpu/cpufreq/smartass/sleep_wakeup_freq
 #	echo 100000 > /sys/devices/system/cpu/cpufreq/smartass/ramp_up_step
 #	echo 200000 > /sys/devices/system/cpu/cpufreq/smartass/ramp_down_step
-	chown system /sys/devices/system/cpu/cpufreq/smartass/max_cpu_load
-	chown system /sys/devices/system/cpu/cpufreq/smartass/min_cpu_load
+#	chown system /sys/devices/system/cpu/cpufreq/smartass/max_cpu_load
+#	chown system /sys/devices/system/cpu/cpufreq/smartass/min_cpu_load
 #	chown system /sys/devices/system/cpu/cpufreq/smartass/sleep_wakeup_freq
 #	chown system /sys/devices/system/cpu/cpufreq/smartass/ramp_up_step
 #	chown system /sys/devices/system/cpu/cpufreq/smartass/ramp_down_step
