@@ -47,7 +47,7 @@ extern unsigned long get_cpuminfreq(void) {}
  * towards the ideal frequency and slower after it has passed it. Similarly,
  * lowering the frequency towards the ideal frequency is faster than below it.
  */
-#define DEFAULT_AWAKE_IDEAL_FREQ 600000
+#define DEFAULT_AWAKE_IDEAL_FREQ (600*1000)
 static unsigned int awake_ideal_freq;
 
 /*
@@ -56,7 +56,7 @@ static unsigned int awake_ideal_freq;
  * that practically when sleep_ideal_freq==0 the awake_ideal_freq is used
  * also when suspended).
  */
-#define DEFAULT_SLEEP_IDEAL_FREQ 245760
+#define DEFAULT_SLEEP_IDEAL_FREQ (100*1000)
 static unsigned int sleep_ideal_freq;
 
 /*
@@ -64,7 +64,7 @@ static unsigned int sleep_ideal_freq;
  * Zero disables and causes to always jump straight to max frequency.
  * When below the ideal freqeuncy we always ramp up to the ideal freq.
  */
-#define DEFAULT_RAMP_UP_STEP 100000
+#define DEFAULT_RAMP_UP_STEP (100*1000)
 static unsigned int ramp_up_step;
 
 /*
@@ -72,7 +72,7 @@ static unsigned int ramp_up_step;
  * Zero disables and will calculate ramp down according to load heuristic.
  * When above the ideal freqeuncy we always ramp down to the ideal freq.
  */
-#define DEFAULT_RAMP_DOWN_STEP 200000
+#define DEFAULT_RAMP_DOWN_STEP (200*1000)
 static unsigned int ramp_down_step;
 
 /*
@@ -91,7 +91,7 @@ static unsigned long min_cpu_load;
  * The minimum amount of time to spend at a frequency before we can ramp up.
  * Notice we ignore this when we are below the ideal frequency.
  */
-#define DEFAULT_UP_RATE_US 45000;
+#define DEFAULT_UP_RATE_US 10000;
 static unsigned long up_rate_us;
 
 /*
@@ -105,7 +105,7 @@ static unsigned long down_rate_us;
  * The frequency to set when waking up from sleep.
  * When sleep_ideal_freq=0 this will have no effect.
  */
-#define DEFAULT_SLEEP_WAKEUP_FREQ 480000
+#define DEFAULT_SLEEP_WAKEUP_FREQ (480*1000)
 static unsigned int sleep_wakeup_freq;
 
 /*
@@ -114,7 +114,7 @@ static unsigned int sleep_wakeup_freq;
 #define DEFAULT_SAMPLE_RATE_JIFFIES 2
 static unsigned int sample_rate_jiffies;
 
-#define DEF_SMOOTH_UI 1
+#define DEF_SMOOTH_UI (0)
 static unsigned int smooth_ui;
 
 /*************** End of tunables ***************/
