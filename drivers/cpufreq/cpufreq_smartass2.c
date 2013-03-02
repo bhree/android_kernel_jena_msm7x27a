@@ -36,9 +36,7 @@
 #include <linux/earlysuspend.h>
 
 extern unsigned long get_cpuL1freq(void);
-extern unsigned long get_cpuL1freq(void) {}
 extern unsigned long get_cpuminfreq(void);
-extern unsigned long get_cpuminfreq(void) {}
 
 /******************** Tunable parameters: ********************/
 
@@ -119,7 +117,7 @@ static unsigned int smooth_ui;
 
 /*************** End of tunables ***************/
 
-static unsigned int touch_state_val;
+extern unsigned int touch_state_val;
 
 static void (*pm_idle_old)(void);
 static atomic_t active_count = ATOMIC_INIT(0);

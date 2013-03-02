@@ -42,6 +42,18 @@ static DEFINE_PER_CPU(struct cpufreq_work_struct, cpufreq_work);
 static struct workqueue_struct *msm_cpufreq_wq;
 #endif
 
+unsigned long get_cpuminfreq(void)
+{
+    return 122880;
+}
+EXPORT_SYMBOL(get_cpuminfreq);
+
+unsigned long get_cpuL1freq(void)
+{
+    return 600*1000;
+}
+EXPORT_SYMBOL(get_cpuL1freq);
+
 struct cpufreq_suspend_t {
 	struct mutex suspend_mutex;
 	int device_suspended;

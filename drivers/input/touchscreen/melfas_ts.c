@@ -125,6 +125,10 @@ static int FW_VERSION;
 
 #define	TSP_PWR_LDO_GPIO	41
 
+// Accidental touch key prevention (see cypress-touchkey.c)
+unsigned int touch_state_val = 0;
+EXPORT_SYMBOL(touch_state_val);
+
 unsigned long saved_rate;
 static bool lock_status;
 static int tsp_enabled;
@@ -591,6 +595,7 @@ static void melfas_ts_get_data(struct work_struct *work)
 	}
 	input_sync(ts->input_dev);
 	touch_is_pressed = _touch_is_pressed;
+	touch_state_val = _touch_is_pressed;
 
 	return ;
 
@@ -1390,6 +1395,7 @@ static void TSP_reboot(void)
 	disable_irq_nosync(ts->client->irq);
 	tsp_enabled = false;
 	touch_is_pressed = 0;
+	touch_state_val = 0;
 
 	release_all_fingers(ts);
 	ts->gpio();
@@ -1416,6 +1422,7 @@ void TSP_force_released(void)
 	release_all_fingers(ts);
 
 	touch_is_pressed = 0;
+	touch_state_val = 0;
 };
 EXPORT_SYMBOL(TSP_force_released);
 
@@ -2323,6 +2330,7 @@ static int melfas_ts_suspend(struct i2c_client *client, pm_message_t mesg)
 	tsp_enabled = false;
 	release_all_fingers(ts);
 	touch_is_pressed = 0;
+	touch_state_val = 0;
 //	ts->gpio();
 //	ts->power(false);
 
