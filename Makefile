@@ -191,7 +191,7 @@ export KBUILD_BUILDHOST := $(SUBARCH)
 #ARCH		?= $(SUBARCH)
 #CROSS_COMPILE	?= $(CONFIG_CROSS_COMPILE:"%"=%)
 ARCH		?= arm
-CROSS_COMPILE	?= /home/brianrahardi/toolchain-4.6.3/bin/arm-linux-androideabi-
+CROSS_COMPILE	?= /usr/bin/arm-linux-gnueabi-
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
 SRCARCH 	:= $(ARCH)
