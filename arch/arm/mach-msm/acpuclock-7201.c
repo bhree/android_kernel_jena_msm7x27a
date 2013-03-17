@@ -46,6 +46,9 @@
 #define PLL4_MODE	(MSM_CLK_CTL_BASE + 0x374)
 #define PLL4_L_VAL	(MSM_CLK_CTL_BASE + 0x378)
 
+#define MAX_VDD_SC              1325000 /* uV */
+#define MIN_VDD_SC               800000 /* uV */
+
 #define dprintk(msg...) \
 	cpufreq_debug_printk(CPUFREQ_DEBUG_DRIVER, "cpufreq-msm", msg)
 
@@ -1124,3 +1127,47 @@ void __init msm_acpu_clock_init(struct msm_acpu_clock_platform_data *clkdata)
 	cpufreq_frequency_table_get_attr(freq_table, smp_processor_id());
 #endif
 }
+
+#ifdef CONFIG_CPU_FREQ_VDD_LEVELS
+ssize_t acpuclk_get_vdd_levels_str(char *buf) {
+
+        int i, len = 0;
+
+        if (buf) {
+                mutex_lock(&drv_state.lock);
+
+                for (i = 0; acpu_freq_tbl[i].a11clk_khz; i++) {
+                        /* updated to use uv required by 8x60 architecture - faux123 */
+                        len += sprintf(buf + len, "%8u: %8d\n", acpu_freq_tbl[i].a11clk_khz, acpu_freq_tbl[i].vdd);
+                }
+
+                mutex_unlock(&drv_state.lock);
+        }
+        return len;
+}
+
+/* updated to use uv required by 8x60 architecture - faux123 */
+void acpuclk_set_vdd(unsigned int khz, int vdd_uv) {
+
+        int i;
+        unsigned int new_vdd_uv;
+//      int vdd_uv;
+
+//      vdd_uv = vdd_mv * 1000;
+
+        mutex_lock(&drv_state.lock);
+
+        for (i = 0; acpu_freq_tbl[i].a11clk_khz; i++) {
+                if (khz == 0)
+                        new_vdd_uv = min(max((acpu_freq_tbl[i].vdd + vdd_uv), (unsigned int)MIN_VDD_SC), (unsigned int)MAX_VDD_SC);
+                else if (acpu_freq_tbl[i].a11clk_khz == khz)
+                        new_vdd_uv = min(max((unsigned int)vdd_uv, (unsigned int)MIN_VDD_SC), (unsigned int)MAX_VDD_SC);
+                else
+                        continue;
+
+                acpu_freq_tbl[i].vdd = new_vdd_uv;
+        }
+
+        mutex_unlock(&drv_state.lock);
+}
+#endif
