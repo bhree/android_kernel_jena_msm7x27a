@@ -287,7 +287,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_800[] = {
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 200000 },
 	{ 1, 800000, ACPU_PLL_4, 6, 0, 100000, 3, 7, 200000 },
 	{ 1, 915200, ACPU_PLL_4, 6, 0, 125000, 3, 7, 200000 },
-	{ 1, 1011200, ACPU_PLL_4, 6, 0, 175000, 3, 7, 200000 },
+	{ 1, 1008000, ACPU_PLL_4, 6, 0, 126000, 3, 7, 200000},
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, {0, 0, 0, 0}, {0, 0, 0, 0} }
 };
 
@@ -304,7 +304,7 @@ static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_1200_pll4_800[] = {
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 200000 },
 	{ 1, 800000, ACPU_PLL_4, 6, 0, 100000, 3, 7, 200000 },
 	{ 1, 915200, ACPU_PLL_4, 6, 0, 125000, 3, 7, 200000 },
-	{ 1, 1011200, ACPU_PLL_4, 6, 0, 175000, 3, 7, 200000 },
+	{ 1, 1008000, ACPU_PLL_4, 6, 0, 126000, 3, 7, 200000},
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, {0, 0, 0, 0}, {0, 0, 0, 0} }
 };
 
@@ -1133,10 +1133,10 @@ ssize_t acpuclk_get_vdd_levels_str(char *buf) {
 	if (buf) {
 		mutex_lock(&drv_state.lock);
 
-		for (i = 0; pll0_960_pll1_245_pll2_1200_pll4_800[i].a11clk_khz; i++) {
+		for (i = 0; acpu_freq_tbl[i].a11clk_khz; i++) {
 			/* updated to use uv required by 7x27 architecture - nAa */
-			if (pll0_960_pll1_245_pll2_1200_pll4_800[i].use_for_scaling)
-			len += sprintf(buf + len, "%8u: %8d\n", pll0_960_pll1_245_pll2_1200_pll4_800[i].a11clk_khz, pll0_960_pll1_245_pll2_1200_pll4_800[i].vdd);
+			if (acpu_freq_tbl[i].use_for_scaling)
+			len += sprintf(buf + len, "%8u: %8d\n", acpu_freq_tbl[i].a11clk_khz, acpu_freq_tbl[i].vdd);
 		}
 
 		mutex_unlock(&drv_state.lock);
@@ -1150,9 +1150,9 @@ void acpuclk_set_vdd(unsigned int khz, int vdd_uv) {
 	printk(KERN_ERR"acpuclk_set_vdd khz: %d, vdd_uv: %d\n", khz, vdd_uv);
 	mutex_lock(&drv_state.lock);
 
-	for (i = 0; pll0_960_pll1_245_pll2_1200_pll4_800[i].a11clk_khz; i++) {
-		if ( pll0_960_pll1_245_pll2_1200_pll4_800[i].a11clk_khz == khz)
-			pll0_960_pll1_245_pll2_1200_pll4_800[i].vdd = vdd_uv;
+	for (i = 0; acpu_freq_tbl[i].a11clk_khz; i++) {
+		if ( acpu_freq_tbl[i].a11clk_khz == khz)
+			acpu_freq_tbl[i].vdd = vdd_uv;
 	}
 
 	mutex_unlock(&drv_state.lock);
